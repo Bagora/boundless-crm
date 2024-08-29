@@ -120,8 +120,8 @@ const Home = () => {
   const cardVariants = {
     hidden: (direction) => ({
       opacity: 0.75,
-      x: direction === 'left' ? 270 : direction === 'right' ? -45 : 0,
-      y: direction === 'top' ? 240 : direction === 'bottom' ? 180 : 0,
+      x: direction === 'top' ? 170 : direction === 'top' ? 450 : 0,
+      y: direction === 'bottom' ? 360 : direction === 'bottom' ? 120 : 0,
       rotateY: 90,
     }),
     visible: {
@@ -129,11 +129,11 @@ const Home = () => {
       x: 0,
       y: 0,
       rotateY: 0,
-      transition: { duration: 1.2 },
+      transition: { duration: 1.4 },
     },
     hover: {
       scale: 1.4,
-      transition: { type: 'spring', stiffness: 550 },
+      transition: { type: 'spring', stiffness: 360 },
     },
   };
 
@@ -144,7 +144,7 @@ const Home = () => {
         <motion.div
           className="bg-gradient-to-r from-cyan-200 to-rose-300 p-6 rounded-lg shadow-3xl"
           variants={cardVariants}
-          custom="left"
+          custom="top"
           initial="hidden"
           animate="visible"
           whileHover="hover"
@@ -160,7 +160,7 @@ const Home = () => {
         <motion.div
           className="bg-gradient-to-r from-cyan-200 to-rose-300 p-6 rounded-lg shadow-3xl"
           variants={cardVariants}
-          custom="right"
+          custom="bottom"
           initial="hidden"
           animate="visible"
           whileHover="hover"
@@ -176,20 +176,6 @@ const Home = () => {
         <motion.div
           className="bg-gradient-to-r from-cyan-200 to-rose-300 p-6 rounded-lg shadow-3xl"
           variants={cardVariants}
-          custom="top"
-          initial="hidden"
-          animate="visible"
-          whileHover="hover"
-          style={{ transformStyle: 'preserve-3d' }}
-          key="front"
-        >
-          <h2 className="text-2xl font-bold mb-2">Total Contacts</h2>
-          <p className="text-xl">{totalContacts}</p>
-        </motion.div>
-
-        <motion.div
-          className="bg-gradient-to-r from-cyan-200 to-rose-300 p-6 rounded-lg shadow-3xl"
-          variants={cardVariants}
           custom="bottom"
           initial="hidden"
           animate="visible"
@@ -199,6 +185,20 @@ const Home = () => {
         >
           <h2 className="text-2xl font-bold mb-2">Today's Contacts</h2>
           <p className="text-xl">{todaysContacts}</p>
+        </motion.div>
+
+        <motion.div
+          className="bg-gradient-to-r from-cyan-200 to-rose-300 p-6 rounded-lg shadow-3xl"
+          variants={cardVariants}
+          custom="top"
+          initial="hidden"
+          animate="visible"
+          whileHover="hover"
+          style={{ transformStyle: 'preserve-3d' }}
+          key="front"
+        >
+          <h2 className="text-2xl font-bold mb-2">Total Contacts</h2>
+          <p className="text-xl">{totalContacts}</p>
         </motion.div>
       </div>
       <div className="mb-8 mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

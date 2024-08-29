@@ -48,6 +48,7 @@ const ContactDetails = ({ params }) => {
     city: "",
     state: "",
     postcode: "",
+    country:"",
     dob: "",
     cardnumber: "",
     cardexp: "",
@@ -55,6 +56,7 @@ const ContactDetails = ({ params }) => {
     cardCvv: "",
     bankDetails: "",
     productname: "",
+    currency:"",
     amount: "",
     status: "",
     planType: "",
@@ -63,6 +65,7 @@ const ContactDetails = ({ params }) => {
     agentname: "",
     fileURL: "",
   });
+  const [showPopup, setShowPopup] = useState(false);
 
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [note, setNote] = useState("");
@@ -132,7 +135,21 @@ const ContactDetails = ({ params }) => {
     } catch (error) {
       console.error("Error updating contact:", error);
     }
+    setShowPopup(true);
   };
+  
+
+    // Use useEffect to handle the pop-up hide logic
+    useEffect(() => {
+      if (showPopup) {
+        const timer = setTimeout(() => {
+          setShowPopup(false);
+        }, 3000);
+  
+        // Clean up the timer on component unmount
+        return () => clearTimeout(timer);
+      }
+    }, [showPopup]);
 
   const handleAddNote = async () => {
     if (!note && !file) return;
@@ -312,6 +329,22 @@ const ContactDetails = ({ params }) => {
           </div>
           <div>
             <label className="block text-gray-700 font-bold mb-2">
+              Country
+            </label>
+            <select
+              value={contact.country}
+              onChange={(e) => setContact({ ...contact, country: e.target.value })}
+              className="border p-3 text-xl rounded w-full bg-gradient-to-r from-cyan-200 to-rose-300"
+              readOnly={userRole !== "admin"}
+            >
+              <option value="" disabled>Select Country</option>
+              <option value="UK">UK</option>
+              <option value="US">US</option>
+              <option value="AUS">AUS</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-gray-700 font-bold mb-2">
               Date of Birth
             </label>
             <input
@@ -423,17 +456,47 @@ const ContactDetails = ({ params }) => {
             />
           </div>
           <div>
+            <label className="block text-gray-700 font-bold mb-2">Currency</label>
+            <select
+              value={contact.currency}
+              onChange={(e) => {
+                const newCurrency = e.target.value;
+                let newAmount = contact.amount;
+
+                // Only add the new currency symbol if it's not already there
+                if (!newAmount.startsWith(newCurrency)) {
+                  newAmount = `${newCurrency}${newAmount.replace(contact.currency, '')}`;
+                }
+
+                setContact({ ...contact, currency: newCurrency, amount: newAmount });
+              }}
+              className="border p-3 text-xl rounded w-full bg-gradient-to-r from-cyan-200 to-rose-300"
+              readOnly={userRole !== "admin"}
+            >
+              <option value="" disabled>Select Currency</option>
+              <option value="$">$</option>
+              <option value="€">€</option>
+              <option value="£">£</option>
+            </select>
+          </div>
+          <div>
             <label className="block text-gray-700 font-bold mb-2">Amount</label>
             <input
               type="text"
               value={contact.amount}
-              onChange={(e) =>
-                setContact({ ...contact, amount: e.target.value })
-              }
+              onChange={(e) => {
+                let newAmount = e.target.value;
+
+                // Remove any existing currency symbol when user types a new amount
+                newAmount = newAmount.replace(contact.currency, '');
+
+                setContact({ ...contact, amount: newAmount });
+              }}
               readOnly={userRole !== "admin"}
               className="border p-3 text-xl rounded w-full bg-gradient-to-r from-cyan-200 to-rose-300"
             />
           </div>
+
           <div>
             <label className="block text-gray-700 font-bold mb-2">Status</label>
             {userRole === "admin" ? (
@@ -471,15 +534,19 @@ const ContactDetails = ({ params }) => {
             <label className="block text-gray-700 font-bold mb-2">
               Plan Type
             </label>
-            <input
-              type="text"
+              <select
               value={contact.planType}
-              onChange={(e) =>
-                setContact({ ...contact, planType: e.target.value })
-              }
-              readOnly={userRole !== "admin"}
+              onChange={(e) => setContact({ ...contact, planType: e.target.value })}
               className="border p-3 text-xl rounded w-full bg-gradient-to-r from-cyan-200 to-rose-300"
-            />
+              readOnly={userRole !== "admin"}
+            >
+              <option value="" disabled>Select Validity</option>
+              <option value="1Year">1 Year</option>
+              <option value="2Year">2 Year</option>
+              <option value="3Year">3 Year</option>
+              <option value="5Year">5 Year</option>
+              <option value="Lifetime">Lifetime</option>
+            </select>
           </div>
           <div>
             <label className="block text-gray-700 font-bold mb-2">
@@ -541,6 +608,13 @@ const ContactDetails = ({ params }) => {
               </button>
             )}
           </div>
+
+          {showPopup && (
+            <div className="fixed bottom-20 right-5 bg-gradient-to-r from-indigo-700 via-sky-700 to-emerald-500 p-4 text-white rounded-3xl shadow-3xl">
+              Contact updated successfully!
+            </div>
+          )}
+
         </form>
         <div className="mt-6">
           <h2 className="text-xl font-bold mb-4">Notes</h2>
