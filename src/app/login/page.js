@@ -23,11 +23,12 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-8 p-10 px-4 bg-slate-200 py-8">
-      <div className="bg-white p-8 mt-8 rounded-3xl shadow-3xl py-6">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800 drop-shadow-3xl">
-      Boundless-CRM
-      </h1>
+    <div className="flex flex-col items-center justify-center min-h-screen py-8 p-10 px-4 py-8">
+      <div className="p-8 mt-8 rounded-xl shadow-3xl py-6">
+      <h4 className="text-6xl font-bold mb-8 text-center text-gray-800 drop-shadow-4xl">
+        Boundless
+        <p className="text-2xl font-bold mb-8 text-center text-gray-400">CRM APP</p>
+      </h4>
         {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
         <form onSubmit={handleLogin} className="flex flex-col space-y-4">
           <input

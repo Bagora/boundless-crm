@@ -64,7 +64,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-8 p-10 px-4 bg-slate-200 py-8">
+    <div className="flex flex-col items-center justify-center min-h-screen py-8 p-10 px-4 py-8">
       <div className="bg-white p-8 mt-8 rounded-3xl shadow-3xl py-6">
         <form onSubmit={handleUpdateProfile} className="flex flex-col space-y-4">
           <input

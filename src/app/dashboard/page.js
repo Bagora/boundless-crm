@@ -84,7 +84,10 @@ const Dashboard = () => {
     (contact) =>
       contact.id.includes(search) ||
       contact.agentname.toLowerCase().includes(search.toLowerCase()) ||
-      contact.customername.toLowerCase().includes(search.toLowerCase())
+      contact.customername.toLowerCase().includes(search.toLowerCase()) ||
+      contact.phone.includes(search) ||
+      contact.homephone.includes(search) ||
+      contact.email.toLowerCase().includes(search.toLowerCase())
   );
 
   const indexOfLastContact = currentPage * contactsPerPage;
@@ -105,13 +108,13 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-8 p-10 px-4 bg-slate-200 py-8">
+    <div className="flex flex-col items-center justify-center min-h-screen py-8 p-10 px-4 py-8">
       <div className="bg-white p-8 mt-8 rounded-3xl shadow-3xl min-h-screen max-w-7xl py-6 w-full">
         <h1 className="text-5xl mt-2 mb-8 text-center text-gray-800">Dashboard</h1>
         <div className="mb-6">
           <input
             type="text"
-            placeholder="Search by Customer ID, Customer Name or Agent Name"
+            placeholder="Search by Customer ID, Customer Name, Customer Email, Customer Phone & homephone or Agent Name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="border p-3 mt-2 mb-8 w-full rounded-3xl shadow-3xl focus:outline-none focus:ring-2 focus:ring-indigo-900"
